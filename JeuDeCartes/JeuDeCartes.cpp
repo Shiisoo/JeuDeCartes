@@ -34,29 +34,74 @@ string carte(int value)
     }
 }
 
+string couleur(int value)
+{
+    string couleur;
+    couleur = value;
+    return couleur;
+}
+
+
 int main()
 {
     default_random_engine moteur(time(0));
     uniform_int_distribution<int> distribution{ 2, 14 };
+    uniform_int_distribution<int> couleurCartes{ 3, 6 };
+    const int taille = 5;
     
 
-    int J1[5] = {};
-    int J2[5] = {};
+    int J1[taille] = {};
+    int J2[taille] = {};
+    int J1couleur[taille] = {};
+    int J2couleur[taille] = {};
     int scoreJ1 = 0, scoreJ2 = 0;
 
-    for(int i=0; i<5; i++){
+    for(int i = 0; i < taille; i++){
         J1[i] = distribution(moteur);
         J2[i] = distribution(moteur);
+        J1couleur[i] = couleurCartes(moteur);
+        J2couleur[i] = couleurCartes(moteur);
+
+        for (int j = 0; j < i; j++)
+        {
+            if ((J1[i] == J1[j] && J1couleur[i] == J1couleur[j]) || (J1[i] == J2[j] && J1couleur[i] == J2couleur[j]))
+            {
+                i--;
+            }
+
+            if ((J2[i] == J2[j] && J2couleur[i] == J2couleur[j]) || (J2[i] == J1[j] && J2couleur[i] == J1couleur[j]))
+            {
+                i--;
+            }
+        }
     }
 
-    cout << "Tirage J1 : " << "{" << carte(J1[0]) << " - " << carte(J1[1]) << " - " << carte(J1[2]) << " - " << carte(J1[3]) << " - " << carte(J1[4]) << "}" << endl;
-    cout << "Tirage J2 : " << "{" << carte(J2[0]) << " - " << carte(J2[1]) << " - " << carte(J2[2]) << " - " << carte(J2[3]) << " - " << carte(J2[4]) << "}" << endl << endl;
+    cout << "Tirage J1 : " << "{";
+    for(int i=0; i<taille; i++){
+        cout << carte(J1[i]) << couleur(J1couleur[i]);
 
+        if (i != taille-1){
+            cout << " - ";
+        }
+    }
+    cout << "}" << endl;
 
-    for (int i = 0; i < 5; i++)
+    cout << "Tirage J2 : " << "{";
+    for (int i = 0; i < taille; i++)
+    {
+        cout << carte(J2[i]) << couleur(J2couleur[i]);
+
+        if (i != taille - 1)
+        {
+            cout << " - ";
+        }
+    }
+    cout << "}" << endl;
+
+    for (int i = 0; i < taille; i++)
     {
         cout << endl << "Resultat tour " << i+1 << endl;
-        cout << carte(J1[i]) << " vs " << carte(J2[i]) << endl;
+        cout << carte(J1[i]) << couleur(J1couleur[i]) << " vs " << carte(J2[i]) << couleur(J2couleur[i]) << endl;
 
         if (J1[i] == J2[i]){
             cout << "Egalite." << endl << endl;
@@ -70,9 +115,11 @@ int main()
     }
 
     if(scoreJ1 > scoreJ2){
-        cout << endl << "Victoire du Joueur 1." << endl;
+        cout << endl << "Victoire du Joueur 1 !" << endl;
+    } else if (scoreJ2 > scoreJ1)  {
+        cout << endl << "Victoire du Joueur 2 !" << endl;
     } else {
-        cout << endl << "Victoire du Joueur 2." << endl;
+        cout << "Egalite !" << endl;
     }
 
     system("pause");
