@@ -1,5 +1,6 @@
 #include <iostream>
 #include <random>
+#include <string>
 using namespace std;
 
 /*
@@ -14,6 +15,24 @@ Vous vérifiez qui gagne le point carte contre carte.
 
 Le joueur qui cumule le plus de point sur le tirage a gagné.
 */
+
+string carte(int value)
+{
+    switch (value)
+    {
+        case 11:
+            return "Valet";
+        case 12:
+            return "Dame";
+        case 13:
+            return "Roi";
+        case 14:
+            return "As";
+
+        default:
+            return to_string(value);
+    }
+}
 
 int main()
 {
@@ -30,58 +49,17 @@ int main()
         J2[i] = distribution(moteur);
     }
 
+    cout << "Tirage J1 : " << "{" << carte(J1[0]) << " - " << carte(J1[1]) << " - " << carte(J1[2]) << " - " << carte(J1[3]) << " - " << carte(J1[4]) << "}" << endl;
+    cout << "Tirage J2 : " << "{" << carte(J2[0]) << " - " << carte(J2[1]) << " - " << carte(J2[2]) << " - " << carte(J2[3]) << " - " << carte(J2[4]) << "}" << endl << endl;
+
+
     for (int i = 0; i < 5; i++)
     {
-        //cout << "Carte J1 : ";
+        cout << endl << "Resultat tour " << i+1 << endl;
+        cout << carte(J1[i]) << " vs " << carte(J2[i]) << endl;
 
-        switch (J1[i])
-        {
-            case 11:
-                cout << "Valet";
-                break;
-            case 12:
-                cout << "Dame";
-                break;
-            case 13:
-                cout << "Roi";
-                break;
-            case 14:
-                cout << "As";
-                break;
-
-            default:
-                cout << J1[i];
-                break;
-        }
-
-        //cout << " vs Carte J2 : ";
-        cout << " vs ";
-
-        switch (J2[i])
-        {
-            case 11:
-                cout << "Valet";
-                break;
-            case 12:
-                cout << "Dame";
-                break;
-            case 13:
-                cout << "Roi";
-                break;
-            case 14:
-                cout << "As";
-                break;
-
-            default:
-                cout << J2[i];
-                break;
-        }
-
-        cout << endl;
-
-        cout << "Resultat tour " << i+1 << endl;
         if (J1[i] == J2[i]){
-            cout << "Egalite.\n" << endl;
+            cout << "Egalite." << endl << endl;
         }
         else
         {
